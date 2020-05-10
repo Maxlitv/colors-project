@@ -9,37 +9,45 @@ const lockBtn = document.querySelectorAll(".lock");
 const closeAdjustments = document.querySelectorAll(".close-adjustment");
 const sliderContainers = document.querySelectorAll(".sliders");
 let initialColors;
+//local storage object
+let savedPalettes = [];
 
 //Event listeners
 generateBtn.addEventListener("click", randomColors);
 sliders.forEach((slider) => {
   slider.addEventListener("input", hslControls);
 });
+
 colorDivs.forEach((div, index) => {
   div.addEventListener("change", () => {
     updateTextUI(index);
   });
 });
+
 currentHexes.forEach((hex) => {
   hex.addEventListener("click", () => {
     copyToClipBoard(hex);
   });
 });
+
 popup.addEventListener("transitionend", () => {
   const popupBox = popup.children[0];
   popup.classList.remove("active");
   popupBox.classList.remove("active");
 });
+
 adjustBtn.forEach((button, index) => {
   button.addEventListener("click", () => {
     openAdjustmentPanel(index);
   });
 });
+
 closeAdjustments.forEach((button, index) => {
   button.addEventListener("click", () => {
     closeAdjustmentPanel(index);
   });
 });
+
 lockBtn.forEach((button, index) => {
   button.addEventListener("click", () => {
     colorDivs[index].classList.toggle("locked");
@@ -209,6 +217,22 @@ function openAdjustmentPanel(index) {
 
 function closeAdjustmentPanel(index) {
   sliderContainers[index].classList.remove("active");
+}
+
+//Creating save to palette local storage thing
+const saveBtn = document.querySelector(".save");
+const submitSave = document.querySelector(".submit-save");
+const closeSave = document.querySelector(".close-save");
+const saveContainer = document.querySelector(".save-container");
+const saveInput = document.querySelector(".save-container input");
+
+//event listeners
+saveBtn.addEventListener("click", openPalette);
+
+function openPalette(e) {
+  const popup = saveContainer.children[0];
+  saveContainer.classList.add("active");
+  popup.classList.add("active");
 }
 
 randomColors();
