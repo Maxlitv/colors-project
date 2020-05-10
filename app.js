@@ -1,16 +1,18 @@
 //Global selections
 const colorDivs = document.querySelectorAll(".color");
-const generateBtn = document.querySelector("generate");
+const generateBtn = document.querySelector(".generate");
 const sliders = document.querySelectorAll("input[type='range'] ");
 const currentHexes = document.querySelectorAll(".color h2");
 const popup = document.querySelector(".copy-container");
 const adjustBtn = document.querySelectorAll(".adjust");
+const lockBtn = document.querySelectorAll(".lock");
 const closeAdjustments = document.querySelectorAll(".close-adjustment");
+const sliderContainers = document.querySelectorAll(".sliders");
 let initialColors;
 
 //Event listeners
-//prettier-ignore
-sliders.forEach(slider => {
+generateBtn.addEventListener("click", randomColors);
+sliders.forEach((slider) => {
   slider.addEventListener("input", hslControls);
 });
 colorDivs.forEach((div, index) => {
@@ -28,7 +30,26 @@ popup.addEventListener("transitionend", () => {
   popup.classList.remove("active");
   popupBox.classList.remove("active");
 });
-
+adjustBtn.forEach((button, index) => {
+  button.addEventListener("click", () => {
+    openAdjustmentPanel(index);
+  });
+});
+closeAdjustments.forEach((button, index) => {
+  button.addEventListener("click", () => {
+    closeAdjustmentPanel(index);
+  });
+});
+lockBtn.forEach((button, index) => {
+  button.addEventListener("click", () => {
+    colorDivs[index].classList.toggle("locked");
+    if (colorDivs[index].classList.contains("locked")) {
+      button.innerHTML = '<i class="fas fa-lock"></i>';
+    } else {
+      button.innerHTML = '<i class="fas fa-lock-open"></i>';
+    }
+  });
+});
 // function - color generator
 function generateHex() {
   const hexColor = chroma.random();
@@ -43,13 +64,22 @@ function randomColors() {
   colorDivs.forEach((div, index) => {
     const hexText = div.children[0];
     const randomColor = generateHex();
+
     //add to array
-    initialColors.push(chroma(randomColor).hex());
+    if (div.classList.contains("locked")) {
+      initialColors.push(hexText.innerText);
+      return;
+    } else {
+      initialColors.push(chroma(randomColor).hex());
+    }
+
     //add color to background pls
     div.style.backgroundColor = randomColor;
     hexText.innerText = randomColor;
+
     //check for contrast
     checkTextContrast(randomColor, hexText);
+
     //sliders to work
     const color = chroma(randomColor);
     const sliders = div.querySelectorAll(".sliders input");
@@ -60,7 +90,14 @@ function randomColors() {
     colorizeSliders(color, hue, brightness, saturation);
   });
   //reset inputs
+
   resetInputs();
+  //check for button contrast
+
+  adjustBtn.forEach((button, index) => {
+    checkTextContrast(initialColors[index], button);
+    checkTextContrast(initialColors[index], lockBtn[index]);
+  });
 }
 
 // We check contrsat to show black/white color depending on luminance
@@ -78,6 +115,7 @@ function colorizeSliders(color, hue, brightness, saturation) {
   const noSat = color.set("hsl.s", 0);
   const fullSat = color.set("hsl.s", 1);
   const scaleSat = chroma.scale([noSat, color, fullSat]);
+
   //scale brightness
   const midBright = color.set("hsl.l", 0.5);
   const scaleBright = chroma.scale(["black", midBright, "white"]);
@@ -110,6 +148,7 @@ function hslControls(e) {
     .set("hsl.h", hue.value);
 
   colorDivs[index].style.backgroundColor = color;
+
   //color inputs
   colorizeSliders(color, hue, brightness, saturation);
 }
@@ -120,6 +159,7 @@ function updateTextUI(index) {
   const textHex = activeDiv.querySelector("h2");
   const icons = activeDiv.querySelectorAll(".controls button");
   textHex.innerText = color.hex();
+
   //check contrast
   checkTextContrast(color, textHex);
   for (icon of icons) {
@@ -146,6 +186,7 @@ function resetInputs() {
     }
   });
 }
+
 //copy to clipboard functionality
 function copyToClipBoard(hex) {
   const el = document.createElement("textarea");
@@ -154,10 +195,20 @@ function copyToClipBoard(hex) {
   el.select();
   document.execCommand("copy");
   document.body.removeChild(el);
+
   //popup animation
   const popupBox = popup.children[0];
   popup.classList.add("active");
   popupBox.classList.add("active");
+}
+
+//we open/close adjustment panel for color container
+function openAdjustmentPanel(index) {
+  sliderContainers[index].classList.toggle("active");
+}
+
+function closeAdjustmentPanel(index) {
+  sliderContainers[index].classList.remove("active");
 }
 
 randomColors();
