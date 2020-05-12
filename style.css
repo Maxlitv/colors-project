@@ -179,3 +179,16 @@ input[type="range"] {
 .library-popup.active {
   transform: translateY(0rem);
 }
+
+/* some responsive stuff */
+@media only screen and (max-width: 768px) {
+  .colors {
+    flex-direction: column;
+  }
+  .color {
+    padding: 1rem;
+  }
+  .sliders {
+    width: 60%;
+  }
+}
