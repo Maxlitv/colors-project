@@ -1,4 +1,19 @@
-# colors-project
-This is a color pallete picker
-. Still in progress, local storage and library save is on the way
-https://maxlitv.github.io/colors-project/
+# Colors Project
+
+## Project setup
+```
+copy repo and run index.hmtl with live server.
+```
+## Project 
+Built for learning purposes based on courses
+
+## About the project
+
+This app allows to generate palettes and save them in local storage of your browser.
+Features: 
+- You can adjust colors with slider.
+- It's possible to copy HEX on clipboard.
+- You may lock colors from generation.
+- Save to libary and then select.
+
+---
