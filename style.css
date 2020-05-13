@@ -183,15 +183,11 @@ input[type="range"] {
 }
 
 /* some responsive stuff */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 600px) {
   .colors {
+    height: 2000px;
+    display: flex;
     flex-direction: column;
-  }
-  .color {
-    padding: 1rem;
-  }
-  .sliders {
-    width: 60%;
   }
 }
 .save-name {
