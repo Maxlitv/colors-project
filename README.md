@@ -6,6 +6,7 @@ copy repo and run index.hmtl with live server.
 ```
 ## Project 
 Built for learning purposes based on courses
+https://maxlitv.github.io/colors-project/
 
 ## About the project
 
