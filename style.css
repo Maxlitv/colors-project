@@ -182,14 +182,6 @@ input[type="range"] {
   transform: translateY(0rem);
 }
 
-/* some responsive stuff */
-@media only screen and (max-width: 600px) {
-  .colors {
-    height: 2000px;
-    display: flex;
-    flex-direction: column;
-  }
-}
 .save-name {
   font-size: 1.5rem;
   padding: 1rem;
@@ -246,4 +238,52 @@ input[type="range"] {
   font-size: 1.2rem;
   background-color: rgb(17, 17, 17);
   color: white;
+}
+h2 {
+  transition: all 0.5s ease-in-out;
+}
+h2:hover {
+  transform: scale(1.2);
+}
+
+/* media query */
+@media only screen and (max-width: 768px) {
+  .colors {
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+  }
+  .color {
+    flex-direction: row;
+  }
+  .color h2 {
+    font-size: 1.2rem;
+  }
+  .adjust,
+  .lock {
+    font-size: 1.2rem;
+  }
+  .controls {
+    flex-direction: row;
+  }
+  .adjust {
+    display: none;
+  }
+  .copy-popup h4,
+  .save-popup h4,
+  .library-popup h4 {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+  .save-name {
+    font-size: 1.2rem;
+    padding: 1rem;
+    width: 80%;
+  }
+  .pick-palette-btn {
+    height: 5rem;
+  }
+  .small-preview div {
+    width: 1rem;
+  }
 }

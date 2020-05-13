@@ -379,6 +379,6 @@ function getLocal() {
     });
   }
 }
-// localStorage.clear();
+localStorage.clear();
 getLocal();
 randomColors();
